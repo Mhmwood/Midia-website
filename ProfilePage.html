@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>code book</title>
+    <!-- bootstrap -->
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="mineStyle.css" />
+
+    <!-- axios -->
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+
+    <style>
+      .row-cols-3 > * {
+        width: 30.333333%;
+      }
+      .card {
+        margin: 0.2rem;
+      }
+      .nav-link {
+        cursor: pointer;
+      }
+      .position-relative {
+        width: 5rem;
+      }
+      .username-position {
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        max-width: 150px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <!-- 
+  placeholder-glow -->
+  <body>
+    <!-- node_modules  -->
+
+    <!-- login -->
+    <div
+      class="modal fade"
+      id="LoginMod"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header justify-content-between">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Log In</h1>
+            <div>
+              <div class="lds-dual-ring" id="lds-lg"></div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="user-name" class="col-form-label">user name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="user-name"
+                  value="hagej11"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="col-form-label">password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  value="123456"
+                />
+              </div>
+            </form>
+          </div>
+          <span class="errormsg" id="errormsg-ln"> </span>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" onclick="Login()">
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Register -->
+
+    <div
+      class="modal fade"
+      id="RegisterMod"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header justify-content-between">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Log In</h1>
+            <div>
+              <div class="lds-dual-ring" id="lds-rg"></div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="email-rg" class="col-form-label">email:</label>
+                <input type="email" class="form-control" id="email-rg" />
+              </div>
+              <div class="mb-3">
+                <label for="user-name-rg" class="col-form-label"
+                  >user name:</label
+                >
+                <input type="text" class="form-control" id="user-name-rg" />
+              </div>
+              <div class="mb-3">
+                <label for="password-rg" class="col-form-label"
+                  >password:</label
+                >
+                <input type="password" class="form-control" id="password-rg" />
+              </div>
+              <div class="mb-3">
+                <label for="profileimage" class="col-form-label"
+                  >profile_image:</label
+                >
+                <input type="file" class="form-control" id="profileimage" />
+              </div>
+            </form>
+          </div>
+          <span class="errormsg" id="errormsg"> </span>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="register()">
+              Register
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- navbar -->
+
+    <div class="container d-flex justify-content-center">
+      <nav
+        class="navbar navbar-expand-lg shadow bg-body-tertiary rounded-bottom pt-3 w-75"
+        id="navbarContainer"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand" href="home.html">Code Book</a>
+          <button
+            class="navbar-toggler btn btn-outline-light border-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            id="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon" id="spanTog"> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="home.html"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="ProfilePage.html" id="proPage"
+                  >Profile</a
+                >
+              </li>
+            </ul>
+
+            <div class="btus" id="btus">
+              <button
+                type="button"
+                class="btn btn-outline-primary mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#LoginMod"
+                data-bs-whatever="@mdo"
+              >
+                Login
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-primary mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#RegisterMod"
+                data-bs-whatever="@mdo"
+              >
+                Register
+              </button>
+            </div>
+          </div>
+          <div
+            id="sucssalrt"
+            style="
+              display: flex;
+              position: fixed;
+              bottom: 0;
+              right: 0;
+              align-content: center;
+              margin: auto;
+              width: 100%;
+              z-index: 1;
+            "
+            class="show fade"
+          ></div>
+        </div>
+      </nav>
+    </div>
+
+    <div
+      class="container d-flex justify-content-center mt-5 flex-column w-75"
+      id="mian"
+    >
+      <div
+        class="profile-header bg-body-tertiary d-flex p-4 rounded"
+        style="align-items: center"
+      >
+        <div class="position-relative">
+          <b
+            class="position-absolute username-position text-truncate"
+            id="user-name"
+            >@</b
+          >
+          <img
+            src="/img/images (1).png"
+            alt="Profile-Image"
+            id="Profile-Image"
+            class="profile-img border border-2 rounded-circle"
+            style="width: 5rem; height: 5rem"
+          />
+        </div>
+
+        <div
+          class="d-flex"
+          style="width: 100%; flex-direction: column; align-items: flex-end"
+        >
+          <h5>Comments: <span id="num-comments">10</span></h5>
+          <h5>Posts: <span id="num-posts">5</span></h5>
+        </div>
+      </div>
+
+      <div
+        class="posts p-2 row row-cols-3"
+        id="posts"
+        style="flex-direction: row"
+      >
+        <!-- card -->
+        <div
+          class="card shadow placeholder-glow col g-0 p-0"
+          aria-hidden="true"
+        >
+          <div class="card-body d-flex flex-column justify-content-center p-0">
+            <img
+              style="height: 15rem; border: 0"
+              class="border-0 card-img-top placeholder"
+            />
+            <h5 class="m-1 placeholder">Lorem ipslor sit amet...</h5>
+          </div>
+        </div>
+        <div
+          class="card shadow placeholder-glow col g-0 p-0"
+          aria-hidden="true"
+        >
+          <div class="card-body d-flex flex-column justify-content-center p-0">
+            <img
+              style="height: 15rem; border: 0"
+              class="border-0 card-img-top placeholder"
+            />
+            <h5 class="m-1 placeholder">Lorem ipslor sit amet...</h5>
+          </div>
+        </div>
+        <div
+          class="card shadow placeholder-glow col g-0 p-0"
+          aria-hidden="true"
+        >
+          <div class="card-body d-flex flex-column justify-content-center p-0">
+            <img
+              style="height: 15rem; border: 0"
+              class="border-0 card-img-top placeholder"
+            />
+            <h5 class="m-1 placeholder">Lorem ipslor sit amet...</h5>
+          </div>
+        </div>
+        <!-- card -->
+      </div>
+    </div>
+  </body>
+
+  <script src="mainLoegic.js"></script>
+  <script>
+    let proUesrId = localStorage.getItem("proUesrId");
+    function getUserInfo(id) {
+      const userImage = document.getElementById("Profile-Image");
+      const Username = document.getElementById("user-name");
+      const numComments = document.getElementById("num-comments");
+      const numPosts = document.getElementById("num-posts");
+      const url = `https://tarmeezacademy.com/api/v1/users/${id}`;
+      axios
+        .get(url)
+        .then((response) => {
+          const data = response.data.data;
+          let profileImage =
+            typeof data.profile_image === "string"
+              ? data.profile_image
+              : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+          Username.textContent = `@${data.username}`;
+          userImage.src = profileImage;
+          numPosts.textContent = data.posts_count;
+          numComments.textContent = data.comments_count;
+        })
+        .catch((error) => {
+          console.error("Error fetching user info:", error);
+        });
+    }
+
+    function getProPosts(id) {
+      const posts = document.getElementById("posts");
+      const url = `https://tarmeezacademy.com/api/v1/users/${id}/posts`;
+      axios
+        .get(url)
+        .then((response) => {
+          const data = response.data.data;
+          posts.innerHTML = data
+            .map((post) => {
+              const titlepost = post.title || post.body;
+              const postImage =
+                typeof post.image === "string"
+                  ? `src="${post.image}" style="height: 15rem; border: 0"`
+                  : `src="" style="display: none;"`;
+              return `
+  <div class="shadow placeholder-glow col g-0 p-0" aria-hidden="true" onclick="navigateToPostPage(${post.id})">
+    <div class="card-body d-flex flex-column justify-content-center p-0">
+      <img ${postImage} class="img-thumbnail border-0" alt="Post image" />
+      <h5 class="m-1 border border-2">${titlepost}</h5>
+    </div>
+  </div>
+`;
+            })
+            .join("");
+        })
+        .catch((error) => {
+          console.error("Error fetching posts:", error);
+        });
+    }
+
+    getUserInfo(proUesrId);
+    getProPosts(proUesrId);
+  </script>
+</html>

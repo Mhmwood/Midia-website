@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>code book</title>
+    <!-- bootstrap -->
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="mineStyle.css" />
+
+    <!-- axios -->
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <style>
+      .errormsg {
+        display: block;
+        color: #eb3131;
+        margin: 0.5rem auto;
+        margin-top: 0;
+      }
+
+      #tag {
+        position: relative;
+        display: inline-block;
+        padding: 0.1rem 0.3rem;
+        margin: 0.2rem;
+        background-color: var(--color1);
+        color: #404649;
+        border-radius: 0.1rem;
+        font-family: Arial, sans-serif;
+        font-size: 0.8rem;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        cursor: pointer;
+      }
+      #tag::before {
+        position: relative;
+        top: 1.5px;
+        content: "#"; /* Insert a hashtag before the text */
+        margin-right: 0.1rem; /* Space between the hashtag and text */
+        color: #404649; /* Same color as text */
+      }
+      #tag:hover {
+        background-color: #a0c8ea8a;
+        transform: scale(1.05); /* Slightly enlarge on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- node_modules  -->
+
+    <!-- login -->
+    <div
+      class="modal fade"
+      id="LoginMod"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header justify-content-between">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Log In</h1>
+            <div>
+              <div class="lds-dual-ring" id="lds-lg"></div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="user-name" class="col-form-label">user name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="user-name"
+                  value="hagej11"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="col-form-label">password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  value="123456"
+                />
+              </div>
+            </form>
+          </div>
+          <span class="errormsg" id="errormsg-ln"> </span>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" onclick="Login()">
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Register -->
+
+    <div
+      class="modal fade"
+      id="RegisterMod"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header justify-content-between">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Log In</h1>
+            <div>
+              <div class="lds-dual-ring" id="lds-rg"></div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="email-rg" class="col-form-label">email:</label>
+                <input type="email" class="form-control" id="email-rg" />
+              </div>
+              <div class="mb-3">
+                <label for="user-name-rg" class="col-form-label"
+                  >user name:</label
+                >
+                <input type="text" class="form-control" id="user-name-rg" />
+              </div>
+              <div class="mb-3">
+                <label for="password-rg" class="col-form-label"
+                  >password:</label
+                >
+                <input type="password" class="form-control" id="password-rg" />
+              </div>
+              <div class="mb-3">
+                <label for="profileimage" class="col-form-label"
+                  >profile_image:</label
+                >
+                <input type="file" class="form-control" id="profileimage" />
+              </div>
+            </form>
+          </div>
+          <span class="errormsg" id="errormsg"> </span>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="register()">
+              Register
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- addpost -->
+    <div
+      class="modal fade"
+      id="addpost"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header justify-content-between">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Create</h1>
+       
+            <div>
+              <div class="lds-dual-ring" id="lds-add"></div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="title-ct" class="col-form-label">title:</label>
+                <input type="text" class="form-control" id="title-ct" />
+              </div>
+              <div class="mb-3">
+                description:
+                <textarea
+                  name=""
+                  id="body-ct"
+                  style="width: 100%; height: 100px; resize: none"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="title-ct" class="col-form-label">image:</label>
+                <input type="file" class="form-control" id="image-ct" />
+              </div>
+            </form>
+          </div>
+          <span class="errormsg" id="errormsg-add"> </span>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="createPost()"
+            >
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- node_modules  end -->
+    <!-- navbar -->
+    <div class="container d-flex justify-content-center">
+      <nav
+        class="navbar navbar-expand-lg shadow bg-body-tertiary rounded-bottom pt-3 w-75"
+        id="navbarContainer"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand" href="home.html">Code Book</a>
+          <button
+            class="navbar-toggler btn btn-outline-light border-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            id="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon" id="spanTog"> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="home.html"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="proPage">Profile</a>
+              </li>
+            </ul>
+
+            <div class="btus" id="btus">
+              <button
+                type="button"
+                class="btn btn-outline-primary mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#LoginMod"
+                data-bs-whatever="@mdo"
+              >
+                Login
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-primary mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#RegisterMod"
+                data-bs-whatever="@mdo"
+              >
+                Register
+              </button>
+            </div>
+
+            <div
+              id="sucssalrt"
+              style="
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                align-content: center;
+                margin: auto;
+                width: 100%;
+                z-index: 1;
+              "
+              class="show fade"
+            ></div>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- navbar end -->
+
+    <!-- mian content -->
+    <div class="container h-100 d-flex justify-content-center mt-5" id="mian">
+ 
+   
+      <!-- posts -->
+      <div class="posts w-50 p-2" id="posts">
+        <div
+          class="card cardLod shadow mb-5 placeholder-glow"
+          aria-hidden="true"
+        >
+          <div class="card-header d-flex justify-content-between">
+            <b class="placeholder">@Lesya</b>
+            <button
+              type="button"
+              class="btn btn-outline-primary placeholder"
+              style="font-size: x-small"
+              data-bs-toggle="modal"
+              data-bs-target="#EditMod"
+              data-bs-whatever="@mdo"
+            >
+              <i class="fas fa-edit"></i> Edit
+            </button>
+          </div>
+          <div class="card-body d-flex flex-column justify-content-center p-0">
+            <img
+              style="height: 15rem; border: 0"
+              class="border-0 card-img-top placeholder"
+            />
+            <h6 class="m-2 text-secondary placeholder">2min</h6>
+            <h5 class="mx-2 placeholder">Lorem ipsum dolor sit...</h5>
+            <p class="mx-2 placeholder">
+              tetur adipisicing elit. Iusto quibusdam est alias ullam beatae.
+            </p>
+
+            <hr />
+            <div class="mx-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-pen"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"
+                />
+              </svg>
+              <span class="placeholder">(3K) commet </span>
+              <div id="tags" style="display: inline"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- posts end -->
+      <div id="addbtu"></div>
+    </div>
+    <!-- mian content end -->
+  </body>
+
+  <script src="mainLoegic.js"></script>
+  <script src="script.js"></script>
+</html>
