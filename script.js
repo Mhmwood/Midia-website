@@ -17,18 +17,20 @@ function GetPosts(page = 1) {
   const shouldRemoveCardLod = cardLod !== null;
 
   const url = `https://tarmeezacademy.com/api/v1/posts?limit=10&page=${page}`;
+  const url2 = "https://dummyjson.com/posts";
 
   axios
-    .get(url)
+    .get(url2)
     .then((response) => {
-      const data = response.data.data;
-      leastpage = response.data.meta.last_page;
+      const data = response.data.posts;
+      // leastpage = response.data.meta.last_page;
 
-      if (shouldRemoveCardLod) cardLod.remove();
+      console.log(data);
+      // if (shouldRemoveCardLod) cardLod.remove();
 
-      posts.innerHTML += data.map(renderPost).join("");
+      posts.innerHTML = data.map(renderPostCurr).join("");
 
-      if (shouldRemoveCardLod) posts.appendChild(cardLod);
+      // if (shouldRemoveCardLod) posts.appendChild(cardLod);
     })
     .catch((error) => {
       console.error("Error fetching posts:", error);
@@ -93,6 +95,17 @@ function renderPost(post) {
         </div>
       </div>
     </div>`;
+}
+
+function renderPostCurr(post) {
+  return `
+     <div class="card shadow mb-5 p-3">
+      <h1>${post.title}</h1>
+      <p>
+      <span class="fw-bold fst-italic fs-2">"</span>${post.body}<span class="fw-bold fst-italic fs-2">"</span>
+      </p>
+    </div>
+  `;
 }
 
 function createPost() {
